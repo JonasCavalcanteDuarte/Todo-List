@@ -24,11 +24,18 @@ function showTasks() {
 }
 
 function addTask() {
-    arrayTasks.push({
-        taskTitle:inputTask.value,
-        itsDone:false
-    })
+    
+    if(inputTask.value){
+        arrayTasks.push({
+            taskTitle:inputTask.value,
+            itsDone:false
+        })
+    }
+    else{
+        alert("Digite uma tarefa")
+    }
 
+    inputTask.value = ""
     showTasks()
     console.log("Tarefas adicionadas na lista")
 }
@@ -48,9 +55,20 @@ function completeTask(index){
 function reloadTasks(){
     let myTasks = localStorage.getItem("listOfTasks")
 
-    arrayTasks = JSON.parse(myTasks)
-    showTasks()
+    if(myTasks){
+        arrayTasks = JSON.parse(myTasks)
+        showTasks()
+    }
+    
     console.log("Lista de tarefas recuperadas do Local Storage")
 }
 
-button.addEventListener("click", addTask)
+function enterPress(keys){
+    if(keys.key === "Enter"){
+        addTask()
+    }
+}
+
+button.addEventListener("click",addTask)
+
+document.addEventListener("keypress",enterPress)
